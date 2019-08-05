@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import DataHelper from '../DataHelper';
 
 class ItemDetail extends React.Component {
 
@@ -17,7 +18,7 @@ class ItemDetail extends React.Component {
 
     getItem = () => {
         const itemId = this.props.match.params.itemId;
-        axios.get('http://localhost:8003/items/' + itemId)
+        axios.get(DataHelper.baseURL() + '/items/' + itemId)
             .then((response) => {
                 const item = response.data;
                 this.setState({
@@ -29,11 +30,11 @@ class ItemDetail extends React.Component {
     purchase = () => {
         const itemId = this.state.item.id;
         axios.post(
-            'http://localhost:8003/items/' + itemId + '/purchase/',
+            DataHelper.baseURL() + '/items/' + itemId + '/purchase/',
             {},
             {
                 headers: {
-                    'Authorization': localStorage.getItem('authorization')
+                    'Authorization': DataHelper.getAuthToken()
                 }
             }
         ).then((response) => {
@@ -65,6 +66,7 @@ class ItemDetail extends React.Component {
             });
         }
         localStorage.setItem('cart_items', JSON.stringify(cartItems));
+        alert('장바구니에 담겼습니다.')
     }
 
     render() {
