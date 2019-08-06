@@ -38,8 +38,15 @@ class Login extends React.Component {
             ).then((response) => {
                 const token = response.data;
                 DataHelper.setAuthToken(token);
+                alert(this.state.username + '님 환영합니다.');
                 this.props.history.push('/');
             });
+    }
+
+    enterkey = () => {
+        if (window.event.keyCode == 13) {
+            this.login();
+        }
     }
 
     render() {
@@ -56,6 +63,7 @@ class Login extends React.Component {
                     <p>
                         <label>비밀번호</label>
                         <input type="password"
+                            onKeyUp={this.enterkey}
                             value={this.state.password}
                             onChange={this.onInputChanged}
                             name="password"/>
