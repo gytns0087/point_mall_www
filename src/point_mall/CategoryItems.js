@@ -25,7 +25,8 @@ class CategoryItems extends React.Component {
 
     indexItems() {
         const categoryId = this.props.match.params.categoryId;
-        axios.get(DataHelper.baseURL() + categoryId + '/items/')
+        //'http://localhost:80031/items/'
+        axios.get(DataHelper.baseURL() + '/categories/' +categoryId + '/items/')
             .then((response) => {
                 const items = response.data;
                 this.setState({
