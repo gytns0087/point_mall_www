@@ -47,7 +47,7 @@ class Login extends React.Component {
     }
 
     enterkey = () => {
-        if (window.event.keyCode == 13) {
+        if (window.event.keyCode === 13) {
             this.login();
         }
     }

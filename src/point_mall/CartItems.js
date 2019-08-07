@@ -3,37 +3,16 @@ import axios from 'axios';
 import ItemBox from './ItemBox';
 import { withRouter } from 'react-router-dom';
 import DataHelper from '../DataHelper';
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 
-@inject('authStore')
+@inject('authStore', 'itemStore')
+@observer
 class CartItems extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            cartItems: []
-        }
-    }
-
-    componentDidMount() {
-        this.indexItems();
-    }
-
-    indexItems = () => {
-        let cartItems = localStorage.getItem('cart_items');
-        if (cartItems == null || cartItems.length < 1) {
-            cartItems = [];
-        } else {
-            cartItems = JSON.parse(cartItems);
-        }
-        this.setState({
-            cartItems
-        });
-    }
 
     purchase = () => {
         const items = [];
-        const { authStore } = this.props;
-        for (let cartItem of this.state.cartItems) {
+        const { authStore, itemStore } = this.props;
+        for (let cartItem of itemStore.cartItems) {
             items.push({
                 item_id: cartItem.item.id,
                 count: cartItem.count
@@ -50,13 +29,14 @@ class CartItems extends React.Component {
                 }
             }
         ).then((response) => {
-            localStorage.removeItem('cart_items');
+            itemStore.clearCartItems();
             this.props.history.push('/me/items');
         });
     }
 
     render() {
-        const items = this.state.cartItems.map((cartItem) => {
+        const { itemStore } = this.props;
+        const items = itemStore.cartItems.map((cartItem) => {
             const item = cartItem.item;
             return (
                 <ItemBox key={item.id}
