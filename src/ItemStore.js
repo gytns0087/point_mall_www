@@ -1,11 +1,10 @@
 import { observable, action, computed } from 'mobx';
-import CartItems from './point_mall/CartItems';
-import { isTSEnumMember } from '@babel/types';
 
 export default class ItemStore {
-    @observable CartItems = [];
+    @observable cartItems = [];
 
-    constructor(){
+    constructor(rootStore){
+        this.rootStore = rootStore;
         let cartItems = localStorage.getItem('cart_items');
         if (cartItems == null || cartItems.length < 1) {
             cartItems = [];
@@ -43,6 +42,8 @@ export default class ItemStore {
     clearCartItems(){
         this.cartItems = [];
         this.saveCartItems();
+
+
     }
 
     saveCartItems(){

@@ -42,7 +42,7 @@ class Login extends React.Component {
                 const { authStore, history } = this.props;
                 authStore.setToken(token);
                 alert(this.state.username + '님 환영합니다.');
-                this.props.history.push('/');
+                history.push('/');
             });
     }
 

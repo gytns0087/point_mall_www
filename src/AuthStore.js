@@ -5,7 +5,8 @@ export default class AuthStore {
     
     @observable authToken = null;
 
-    constructor(){
+    constructor(rootStore){
+        this.rootStore = rootStore;
         this.authToken = localStorage.getItem('auth_token');
     }
 
@@ -15,6 +16,7 @@ export default class AuthStore {
     }
 
     @action deleteToken(){
+        this.rootStore.itemStore.clearCartItems();
         localStorage.removeItem('auth_token');
         this.authToken = null;
     }
