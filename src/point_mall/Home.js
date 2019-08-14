@@ -1,9 +1,9 @@
 import React from 'react';
-import axios from 'axios';
-
 import ItemBox from './ItemBox';
-import DataHelper from '../DataHelper';
+import { inject, observer } from 'mobx-react';
 
+@inject('httpService') 
+@observer
 class Home extends React.Component {
 
     constructor(props) {
@@ -18,11 +18,10 @@ class Home extends React.Component {
     }
 
     indexItems() {
-        axios.get(DataHelper.baseURL() + '/items/')
-            .then((response) => {
-                const items = response.data;
+        this.props.httpService.indexItems() // httpService를 inject 했으므로 ..
+            .then(items => {
                 this.setState({
-                    items: items
+                    items
                 });
             });
     }
@@ -30,7 +29,7 @@ class Home extends React.Component {
     render() {
         const items = this.state.items.map((item) => {
             return (
-                <ItemBox key={item.id} item={item}/>
+                <ItemBox key={item.id} item={item} />
             )
         });
         return (

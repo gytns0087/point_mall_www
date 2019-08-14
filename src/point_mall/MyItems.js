@@ -1,10 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 import ItemBox from './ItemBox';
-import DataHelper from '../DataHelper';
 import { inject } from 'mobx-react'
 
-@inject('authStore')
+@inject('authStore', 'httpService')
 class MyItems extends React.Component {
     constructor(props) {
         super(props);
@@ -15,40 +13,24 @@ class MyItems extends React.Component {
     }
 
     componentDidMount() {
-        this.getUser();
-        this.indexItems();
+        this.getMe();
+        this.indexMyItems();
     }
 
-    getUser = () => {
-        const { authStore } = this.props;
-        axios.get(
-            DataHelper.baseURL() + '/me/',
-            {
-                headers: {
-                    'Authorization': authStore.authToken
-                }
-            }
-        ).then((response) => {
-            const user = response.data;
+    getMe = () => {
+        this.props.httpService.getMe()
+        .then(user => {
             this.setState({
-                user: user
+                user
             });
         });
     }
 
-    indexItems = () => {
-        const { authStore } = this.props;
-        axios.get(
-            DataHelper.baseURL() + '/me/items/',
-            {
-                headers: {
-                    'Authorization': authStore.authToken
-                }
-            }
-        ).then((response) => {
-            const userItems = response.data;
+    indexMyItems = () => {
+        this.props.httpService.indexMyItems()
+        .then(userItems => {
             this.setState({
-                userItems: userItems
+                userItems
             })
         });
     }

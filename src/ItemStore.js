@@ -42,8 +42,6 @@ export default class ItemStore {
     clearCartItems(){
         this.cartItems = [];
         this.saveCartItems();
-
-
     }
 
     saveCartItems(){

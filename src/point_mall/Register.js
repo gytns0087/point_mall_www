@@ -1,9 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { inject } from 'mobx-react'
-@inject('authStore', 'httpService')
-class Login extends React.Component {
 
+@inject('httpService')
+
+class Register extends React.Component{
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -25,24 +27,17 @@ class Login extends React.Component {
         }
     }
 
-    login = () => {
-        this.props.httpService.login(
+    register = () => {
+        this.props.httpService.register(
             this.state.username,
             this.state.password
-        ).then(token => {
-                const {history } = this.props;
-                alert(this.state.username + '님 환영합니다.');
-                history.push('/');
+        ).then(response => {
+                const { history } = this.props;
+                history.push('/login');
             });
     }
-
-    enterkey = () => {
-        if (window.event.keyCode === 13) {
-            this.login();
-        }
-    }
-
-    render() {
+    
+    render(){
         return (
             <div>
                 <div id="container">
@@ -61,11 +56,11 @@ class Login extends React.Component {
                             onChange={this.onInputChanged}
                             name="password"/>
                     </p>
-                    <button onClick={this.login}>로그인</button>
+                    <button onClick={this.register}>회원가입</button>
                 </div>
             </div>
         );
     }
 }
 
-export default withRouter(Login);
+export default withRouter(Register);
