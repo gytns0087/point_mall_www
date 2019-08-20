@@ -16,7 +16,7 @@ export default class AuthStore {
     @action setToken(token) {
         this.authToken = token.token_type + ' ' + token.access_token;
         localStorage.setItem('auth_token', this.authToken);
-        localStorage.setItem('refresh_token', token.refresh_token);
+        localStorage.setItem('refresh_token', token.refresh_token); // 19.08.14
         this.getUser();
     }
 
@@ -47,7 +47,7 @@ export default class AuthStore {
         return this.authToken != null;
     }
 
-    get refreshToken(){
+    get refreshToken(){ // 19.08.14
         return localStorage.getItem('refresh_token');
     }
 }

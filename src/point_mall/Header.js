@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 
-@inject('httpService', 'itemStore', 'authStore')   // inject 함수는 컴포넌트에서 스토어에 접근할 수 있게 해줍니다. 정확히는, 스토어에 있는 값을 컴포넌트의 props 로 "주입"을 해줍니다.
+@inject('httpService', 'itemStore', 'authStore', 'history')   // inject 함수는 컴포넌트에서 스토어에 접근할 수 있게 해줍니다. 정확히는, 스토어에 있는 값을 컴포넌트의 props 로 "주입"을 해줍니다.
 @observer   // 관찰 받고 있는 상태
 class Header extends React.Component {  // React.Component를 상속받은 Header 클래스 선언
 
     constructor(props) {    // constructor 메서드는 class 내에서 객체를 생성하고 초기화하기 위한 특별한 메서드입니다.
         super(props);       // 자식 클래스에서 부모의 메서드를 호출할 때는 super() 메서드로 부모를 구해 호출한다.
-        this.state = {      // constructor의 state
+        this.state = {
+            searchText: '',     // constructor의 state
             categories: []  // categories라는 객체를 []로 초기화.
         };
     }
@@ -30,6 +31,25 @@ class Header extends React.Component {  // React.Component를 상속받은 Heade
         const { authStore } = this.props; // == 'const authStore = this.props.authStore'
         authStore.deleteToken();    // AuthStore.js의 deleteToken()함수 호출.
         alert('로그아웃 되었습니다.');  // 경고창
+    }
+
+    onInputChanged = (event) => {
+        const target = event.target;
+        if (target.name === 'search') {
+            this.setState({
+                searchText: target.value
+            });
+        }
+    }
+
+    search = () => {
+        this.props.history.push('/tags/' + this.state.searchText);
+    }
+
+    enterkey = () => {
+        if (window.event.keyCode === 13) {
+            this.search();
+        }
     }
 
     render() {        
@@ -57,6 +77,10 @@ class Header extends React.Component {  // React.Component를 상속받은 Heade
                             <span> {username}님/{point}P</span> :
                         null
                     }
+                    {
+                        authStore.isLoggedIn &&
+                            <Link to="/me/history">History</Link>
+                    }
 
                     <Link to="/cart/items">Cart {itemStore.cartItemsCount}</Link>
                     {
@@ -74,6 +98,14 @@ class Header extends React.Component {  // React.Component를 상속받은 Heade
                             <button onClick={this.logout}>Logout</button> :
                             <Link to="/login">Login</Link>
                     }
+                    <input
+                        style={{ marginLeft: '1em' }}
+                        value={this.state.searchText}
+                        onKeyUp={this.enterkey}
+                        onChange={this.onInputChanged}
+                        type="text"
+                        name="search" />
+                    <button onClick={this.search}>Search</button>
 
                 </div>
             </header>

@@ -14,6 +14,8 @@ import CartItems from './point_mall/CartItems';
 import ObserverTest from './observer/ObserverTest';
 import Charge from './point_mall/Charge'
 import PromiseTest from './promise/PromiseTest';
+import MyHistory from './point_mall/MyHistory';
+import TagItems from './point_mall/TagItems';
 
 function App() {
   return (
@@ -25,7 +27,9 @@ function App() {
         <Route exact path="/register" component={Register} />
         <Route exact path="/items/:itemId" component={ItemDetail} />
         <Route exact path="/me/items" component={MyItems} />
+        <Route exact path="/me/history" component={MyHistory} />
         <Route exact path="/categories/:categoryId" component={CategoryItems} />
+        <Route exact path="/tags/:tag" component={TagItems} />
         <Route exact path="/cart/items" component={CartItems} />
         <Route exact path="/observer-test" component={ObserverTest} />
         <Route exact path="/charge" component={Charge} />

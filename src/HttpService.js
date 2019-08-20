@@ -52,7 +52,7 @@ class HttpService {
                     }
 
                     return new Promise((resolve, reject) => {
-                        this.refreshSubscribers.push(token => {
+                        this.refreshSubscribers.push(token => { 
                             if (token == null) {
                                 reject(originalError);
                             } else {
@@ -164,11 +164,32 @@ class HttpService {
             });
     }
 
+    indexTagItems(tag){
+        return axios.get('/tags/' + tag + '/items/')
+            .then(response => {
+                return response.data;
+            });
+    }
+
     indexCategories() {  // Header.js의 indexCategories
         return axios.get('/categories/')
             .then(response => {
                 return response.data;
             })
+    }
+
+    indexHistory(){
+        return axios.get('/histories/')
+            .then(response => {
+                return response.data;
+            });
+    }
+
+    refundHistory(historyId) {
+        return axios.post('/histories/' + historyId + '/refund/')
+        .then(response => {
+            return response.data;
+        })
     }
 }
 

@@ -37,6 +37,8 @@
 header {
     background-color: gray;
     padding: 20px 10px;
+    /* position: fixed;
+    width: 100%; */
 }
 
 footer {
@@ -98,4 +100,10 @@ header a {
 
 .item-detail-container {
     margin: 20px;
+}
+
+.history-container {
+  overflow: hidden;
+  border: 2px solid black;
+  margin: 20px;
 }
