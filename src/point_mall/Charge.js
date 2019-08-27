@@ -10,20 +10,30 @@ class Charge extends React.Component {
         super(props);
         this.state = {
             point: '',
+            user: null,
         };
     }
 
     componentDidMount() {
         // this.charge();
-        this.props.httpService.getMe();
+        this.getMe();
+    }
+
+    getMe = () => {
+        this.props.httpService.getMe()
+            .then(user => {
+                this.setState({
+                    user
+                });
+            });
     }
 
     charge = () => {
         this.props.httpService.charge(
-            this.props.authStore.user.id,
-            this.props.authStore.user.username,
-            this.props.authStore.user.password,
-            Number(this.state.point) + Number(this.props.authStore.user.point)
+            this.state.user.id,
+            this.state.user.username,
+            this.state.user.password,
+            Number(this.state.point) + Number(this.state.user.point)
         ).then(point => {
             this.setState({
                 point
@@ -43,8 +53,8 @@ class Charge extends React.Component {
     }
 
     render() {
-        const { authStore } = this.props;
-        const user = authStore.user;
+        // const { authStore } = this.props;
+        const user = this.state.user;
         const point = user ? user.point : 0
         return (
             <div>

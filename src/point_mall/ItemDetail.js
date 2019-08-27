@@ -32,6 +32,7 @@ class ItemDetail extends React.Component {
         .then(item => {
             this.props.history.push('/me/items');
             this.props.httpService.getMe();
+            window.location.reload();
         });
     }
 

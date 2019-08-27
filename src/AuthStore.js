@@ -14,7 +14,7 @@ export default class AuthStore {
         this.authToken = token.token_type + ' ' + token.access_token;
         localStorage.setItem('auth_token', this.authToken);
         localStorage.setItem('refresh_token', token.refresh_token); // 19.08.14
-        this.props.httpService.getMe();
+        // this.props.httpService.getMe();
     }
 
     @action deleteToken() {

@@ -10,12 +10,23 @@ class Header extends React.Component {  // React.Component를 상속받은 Heade
         super(props);       // 자식 클래스에서 부모의 메서드를 호출할 때는 super() 메서드로 부모를 구해 호출한다.
         this.state = {
             searchText: '',     // constructor의 state
-            categories: []  // categories라는 객체를 []로 초기화.
+            categories: [],  // categories라는 객체를 []로 초기화.
+            user: null
         };
     }
 
     componentDidMount() {   // DOM에 삽입되어 렌더링이 완료된 후 실행된다. 컴포넌트가 갱신된 후에 실행된다.
         this.indexCategories(); // indexCategories 라는 함수를 실행한다.
+        this.getMe();
+    }
+
+    getMe = () => {
+        this.props.httpService.getMe()
+            .then(user => {
+                this.setState({
+                    user
+                });
+            });
     }
 
     indexCategories() { // indexCategories 함수 정의
@@ -54,7 +65,7 @@ class Header extends React.Component {  // React.Component를 상속받은 Heade
 
     render() {        
         const { authStore, itemStore } = this.props;    // 두 줄 쓸 거 한 줄 쓰는 이점이 있다.
-        const user = authStore.user;    // AuthStore.js의 user 참조.
+        const user = this.state.user;    // AuthStore.js의 user 참조.
         const username = user ? user.username : ''
         const point = user ? user.point : 0
         const categories = this.state.categories.map((category) => {

@@ -33,6 +33,8 @@ class Login extends React.Component {
                 const {history } = this.props;
                 alert(this.state.username + '님 환영합니다.');
                 history.push('/');
+                this.props.httpService.getMe();
+                window.location.reload();
             });
     }
 
