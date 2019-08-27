@@ -1,11 +1,6 @@
 import { observable, action, computed } from 'mobx'
-import axios from 'axios'
-import { inject } from 'mobx-react';
-
-@inject('httpService')
 
 export default class AuthStore {
-
     @observable authToken = null;
     @observable user = null;
 
