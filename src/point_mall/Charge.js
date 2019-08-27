@@ -15,7 +15,7 @@ class Charge extends React.Component {
 
     componentDidMount() {
         // this.charge();
-        this.props.authStore.getUser();
+        this.props.httpService.getMe();
     }
 
     charge = () => {

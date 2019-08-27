@@ -29,7 +29,7 @@ class MyHistory extends React.Component {
         this.props.httpService.refundHistory(historyId)
             .then(history => {
                 this.indexHistory()
-                this.props.authStore.getUser();
+                this.props.httpService.getMe();
             });
 
     }

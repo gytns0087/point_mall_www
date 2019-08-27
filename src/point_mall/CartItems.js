@@ -20,7 +20,7 @@ class CartItems extends React.Component {
         .then(userItems => {
             itemStore.clearCartItems();
             this.props.history.push('/me/items');
-            this.props.authStore.getUser();
+            this.props.httpService.getMe();
         });
     }
 

@@ -1,8 +1,10 @@
 import { observable, action, computed } from 'mobx'
 import axios from 'axios'
+import { inject } from 'mobx-react';
+
+@inject('httpService')
 
 export default class AuthStore {
-    BASE_URL = 'http://localhost:8003';
 
     @observable authToken = null;
     @observable user = null;
@@ -17,7 +19,7 @@ export default class AuthStore {
         this.authToken = token.token_type + ' ' + token.access_token;
         localStorage.setItem('auth_token', this.authToken);
         localStorage.setItem('refresh_token', token.refresh_token); // 19.08.14
-        this.getUser();
+        this.props.httpService.getMe();
     }
 
     @action deleteToken() {
@@ -26,21 +28,6 @@ export default class AuthStore {
         localStorage.removeItem('refresh_token');
         this.authToken = null;
         this.user = null;
-    }
-
-    getUser() {
-        axios.get(
-            this.BASE_URL + '/me/',
-            {
-                headers: {
-                    'Authorization': this.authToken
-                }
-            }
-        ).then((response) => {
-            this.user = response.data;
-            localStorage.setItem('auth_user', JSON.stringify(this.user));
-        });
-
     }
 
     @computed get isLoggedIn() {

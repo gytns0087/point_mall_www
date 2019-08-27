@@ -31,7 +31,7 @@ class ItemDetail extends React.Component {
         this.props.httpService.purchaseItem(itemId)
         .then(item => {
             this.props.history.push('/me/items');
-            this.props.authStore.getUser();
+            this.props.httpService.getMe();
         });
     }
 
